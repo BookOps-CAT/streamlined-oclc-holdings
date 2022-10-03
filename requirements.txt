@@ -1,5 +1,6 @@
 atomicwrites==1.4.1
 attrs==21.4.0
+bookops-bpl-solr @ git+https://github.com/BookOps-CAT/bookops-bpl-solr.git@f199a4f43ca55ec0e24be75b82277250055283a5
 bookops-marc @ git+https://github.com/BookOps-CAT/bookops-marc.git@dfe5bcbb310a343a44b340ddb0b4d6e18d31504f
 bookops-worldcat==0.5.0
 certifi==2022.6.15
