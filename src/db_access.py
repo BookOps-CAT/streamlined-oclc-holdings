@@ -41,3 +41,12 @@ def insert_or_ignore(session, model, **kwargs):
         return instance
     else:
         return instance
+
+
+def delete_instances(session, model, **kwargs) -> int:
+    instances = session.query(model).filter_by(**kwargs).all()
+    n = 0
+    for i in instances:
+        n += 1
+        session.delete(i)
+    return n

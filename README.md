@@ -60,9 +60,27 @@ The enhancement process should include sending resulting records to authority wo
 		+ removes following fields: 019, 029, 263, 938
 		+ adds 949 with command to set proper Sierra bib format and OPAC Display code
 	+ only records present in the `bpl-batch2enrich-[YYMMDD].out` will be processed
+	+ if enrichment process get interrupted (for example, OCLC service times out, or returns an error) it can be resumed using the following command:
+	```
+	python run.py BPL enrich-resume
+	```
+	+ if OCLC service returns 404 HTTP error (not found) for a given OCN number, the row in bpl database must be deleted:
+
+	error example:
+	```
+	requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://worldcat.org/bib/data/1330292752
+	```
+	Use the following command to delete a row with given OCN:
+	```
+	python run.py BPL delete --ocn 1330292752
+	```
 
 5. Load enriched records to Sierra:
 	+ use "Load Overload NEW" load table
+	+ occasionally, bibs get deleted from Sierra and during loading of the file you may see error messages indicating such bib numbers. In this case delete that bib from bpl database using the following command (8 digit number):
+	```
+	python run.py delete --bibno 10962655
+	```
 6. Create a Backstage list of newly loaded records and submit them for authority processing:
 	+ use the same list that was utilized to create MARC records for enrichment
 	+ output a MARC file for Backstage processing using export table "out" and name the file using following convention: BLW-GAP-[YYMMDD].out`
